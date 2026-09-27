@@ -8,17 +8,17 @@ export default function App() {
   const [message, setMessage] = useState("");
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [error, setError] = useState("");
+  const [feedback, setFeedback] = useState<{ kind: "prompt" | "error"; message: string } | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!message.trim()) {
-      setError("Paste a message first.");
+      setFeedback({ kind: "prompt", message: "Paste a message first." });
       document.querySelector<HTMLTextAreaElement>("#message-input")?.focus();
       return;
     }
 
-    setError("");
+    setFeedback(null);
     setIsAnalyzing(true);
     setResult(null);
 
@@ -30,12 +30,29 @@ export default function App() {
       });
       const payload = (await response.json()) as AnalyzeResponse;
 
+      if (payload.status === "unsupported_language") {
+        setFeedback({
+          kind: "error",
+          message: "ScamShield currently only analyzes messages in English. Please paste an English message, or translate this one first.",
+        });
+        return;
+      }
+      if (payload.status === "insufficient_context") {
+        setFeedback({
+          kind: "error",
+          message: "We couldn't analyze that message. Please try again, or paste a bit more context if it's very short.",
+        });
+        return;
+      }
       if (!response.ok || payload.status !== "complete") {
         throw new Error("Analysis did not complete.");
       }
       setResult(payload.result);
     } catch {
-      setError("We couldn't analyze that message. Please try again, or paste a bit more context if it's very short.");
+      setFeedback({
+        kind: "error",
+        message: "We couldn't analyze that message. Please try again, or paste a bit more context if it's very short.",
+      });
     } finally {
       setIsAnalyzing(false);
     }
@@ -44,7 +61,7 @@ export default function App() {
   function startOver() {
     setMessage("");
     setResult(null);
-    setError("");
+    setFeedback(null);
     requestAnimationFrame(() => document.querySelector<HTMLTextAreaElement>("#message-input")?.focus());
   }
 
@@ -57,19 +74,14 @@ export default function App() {
             <MessageForm
               message={message}
               isAnalyzing={isAnalyzing}
+              feedback={feedback}
               onMessageChange={(nextMessage) => {
                 setMessage(nextMessage);
-                if (error) setError("");
+                if (feedback) setFeedback(null);
               }}
               onSubmit={handleSubmit}
             />
           </>
-        )}
-
-        {error && (
-          <p className="inline-message" role="alert">
-            {error}
-          </p>
         )}
 
         {isAnalyzing && (

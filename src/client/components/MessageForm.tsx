@@ -3,13 +3,14 @@ import type { FormEvent } from "react";
 type MessageFormProps = {
   message: string;
   isAnalyzing: boolean;
+  feedback: { kind: "prompt" | "error"; message: string } | null;
   onMessageChange: (message: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
 
-export default function MessageForm({ message, isAnalyzing, onMessageChange, onSubmit }: MessageFormProps) {
+export default function MessageForm({ message, isAnalyzing, feedback, onMessageChange, onSubmit }: MessageFormProps) {
   return (
-    <form className="message-form" onSubmit={onSubmit}>
+    <form className="message-form" onSubmit={onSubmit} aria-busy={isAnalyzing}>
       <label className="field-label" htmlFor="message-input">
         Suspicious message
       </label>
@@ -22,8 +23,17 @@ export default function MessageForm({ message, isAnalyzing, onMessageChange, onS
         value={message}
         readOnly={isAnalyzing}
         onChange={(event) => onMessageChange(event.target.value)}
-        aria-describedby="privacy-note"
+        aria-describedby={feedback ? `privacy-note ${feedback.kind}-feedback` : "privacy-note"}
       />
+      {feedback && (
+        <p
+          className={`inline-message ${feedback.kind === "error" ? "inline-error" : ""}`}
+          id={`${feedback.kind}-feedback`}
+          role={feedback.kind === "prompt" ? "status" : "alert"}
+        >
+          {feedback.message}
+        </p>
+      )}
       <p className="privacy-note" id="privacy-note">
         Your message is sent to Google’s Gemini AI for analysis. On the free tier, it may be used to improve Google
         products and may be reviewed by people. Please don’t include sensitive personal or financial details, account

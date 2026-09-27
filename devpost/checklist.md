@@ -19,7 +19,7 @@ Build mode: learn
   Learner check: Open `http://localhost:5173`, paste a clearly fictional scam message, analyze it, and see whether the risk badge and each highlighted phrase connect clearly to its explanation and recommendation.
   Commit: `Build ScamShield analysis core`
 
-- [ ] **2. Complete the states, reset, and responsive experience**
+- [x] **2. Complete the states, reset, and responsive experience**
   Becomes usable: Empty input, loading, unsupported language, insufficient context, provider failures, Low risk, and reset all behave honestly; the same experience remains readable on mobile and desktop.
   Why now: Once the core analysis is real, these behaviors protect users from misleading partial results and make the flow dependable without introducing new product surfaces.
   PRD ref: `prd.md > States and Boundaries`, `prd.md > Analyze another message`, `prd.md > Look and Feel`, `prd.md > Screens and Layout`, `prd.md > Show risk, evidence, and a recommendation`
