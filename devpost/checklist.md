@@ -29,15 +29,16 @@ Build mode: learn
   Learner check: Try the error and reset cases in the browser, then resize to a narrow phone width. Note whether the text, highlights, labels, and explanations remain easy to follow.
   Commit: `Finish ScamShield states and responsive UI`
 
-- [ ] **3. Deploy the proof of concept on Vercel Hobby**
+- [ ] **3. Vercel runtime support (deployment paused)**
+  Status: Paused after adding the Vercel runtime configuration and request parsing fixes. Live deployment verification is deferred while local testing and submission preparation continue; deployment is not a blocker for those tasks.
   Becomes usable: ScamShield is available from one Vercel URL with the React build served statically and the Express analysis function calling Gemini without exposing its API key.
   Why now: Deploy after the complete flow works locally so cloud configuration can be checked against a stable app rather than obscuring product behavior during early development.
   PRD ref: `prd.md > The Core Journey`, `prd.md > Paste and analyze a message`, `prd.md > Screens and Layout`
   Spec ref: `spec.md > Where It Runs and How Someone Tries It > Vercel Hobby deployment`, `spec.md > External Services and Dependencies > Vercel Hobby`, `spec.md > Important Failure Modes`, `spec.md > File Structure`
-  Build: Write `devpost/demo-messages.md` with clearly fictional Nigeria-grounded and US/UK-style scam messages plus a legitimate control (these are manual demo inputs, never a fixed in-app list). Configure Vite output under `public/`, disable Vite's source `publicDir`, set the Express function maximum duration to 60 seconds, verify `.env` and generated files are ignored, and deploy the project to the learner's Vercel Hobby project with `GEMINI_API_KEY` set only as a server environment variable. Do not put the key in the repository or frontend build.
-  Verify (mechanical): Run `npm run build` and `npx vercel dev`; confirm the static page loads and `/api/analyze` is reachable. After deployment, submit a fictional/anonymized English message and confirm a validated result returns from the live URL.
+  Build: Write `devpost/demo-messages.md` with clearly fictional Nigeria-grounded and US/UK-style scam messages plus a legitimate control (these are manual demo inputs, never a fixed in-app list). Configure Vite output under `public/`, disable Vite's source `publicDir`, set a 55-second Gemini request timeout with retries disabled, verify `.env` and generated files are ignored, and deploy the project to the learner's Vercel Hobby project with `GEMINI_API_KEY` set only as a sensitive server environment variable. Do not put the key in the repository or frontend build.
+  Verify (mechanical): Pending local verification. When deployment resumes, run `npm run build` and `npx vercel dev`; confirm the static page loads and `/api/analyze` is reachable. After deployment, submit a fictional/anonymized English message and confirm a validated result returns from the live URL.
   Learner check: Open the deployed URL in a fresh browser tab, try one fictional scam message and the **Analyze another message** reset, and confirm the page and analysis work together.
-  Commit: `Configure ScamShield for Vercel`
+  Commit: `Support ScamShield on Vercel`
 
 ## Hands-on Checkpoints
 

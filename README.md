@@ -19,6 +19,16 @@ npm run dev
 
 Open `http://localhost:5173`.
 
+## Deploy to Vercel
+
+Vercel serves the Vite build from `public/` and runs the default-exported Express app in `src/index.ts` as a function. The Gemini request has a 55-second timeout with retries disabled; a timeout follows the app's normal analysis-failure path.
+
+```powershell
+npx vercel dev
+```
+
+The first CLI run may ask you to sign in and link or create a Vercel project. For a deployment, use `npx vercel` for a preview or `npx vercel --prod` for production. In the Vercel project settings, add `GEMINI_API_KEY` as a server environment variable for the environments you deploy to, then redeploy. Do not prefix it with `VITE_` or commit it to this repository.
+
 ## Privacy
 
 Messages are sent from the Express server to Gemini 3.1 Flash-Lite using `store: false`. Google's free-tier terms may allow submitted content to be used to improve Google products and reviewed by humans. Don't paste sensitive personal or financial details, account numbers, or passwords. Demo with fictional or already-public messages only.

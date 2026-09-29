@@ -1,12 +1,19 @@
 import { Router } from "express";
 import type { AnalyzeRequest, AnalyzeResponse, ModelResponse } from "../shared/analysis-types";
-import { analyzeWithGemini } from "./gemini";
-import { parseModelResponse, toAnalysisResult } from "./validate-analysis";
+import { analyzeWithGemini } from "./gemini.js";
+import { parseModelResponse, toAnalysisResult } from "./validate-analysis.js";
 
 const router = Router();
 
 router.post("/analyze", async (request, response) => {
-  const body: unknown = request.body;
+  let body: unknown = request.body;
+  if (Buffer.isBuffer(body) || typeof body === "string") {
+    try {
+      body = JSON.parse(Buffer.isBuffer(body) ? body.toString("utf8") : body);
+    } catch {
+      body = undefined;
+    }
+  }
   if (
     typeof body !== "object" ||
     body === null ||

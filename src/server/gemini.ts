@@ -45,17 +45,20 @@ function getClient(): GoogleGenAI {
 }
 
 export async function analyzeWithGemini(message: string): Promise<ModelResponse> {
-  const interaction = await getClient().interactions.create({
-    model: "gemini-3.1-flash-lite",
-    system_instruction: systemInstruction,
-    input: message,
-    store: false,
-    response_format: {
-      type: "text",
-      mime_type: "application/json",
-      schema: responseSchema,
+  const interaction = await getClient().interactions.create(
+    {
+      model: "gemini-3.1-flash-lite",
+      system_instruction: systemInstruction,
+      input: message,
+      store: false,
+      response_format: {
+        type: "text",
+        mime_type: "application/json",
+        schema: responseSchema,
+      },
     },
-  });
+    { timeout: 55_000, maxRetries: 0 },
+  );
 
   if (interaction.status !== "completed" || !interaction.output_text) {
     throw new Error("Gemini did not return a completed text response.");
