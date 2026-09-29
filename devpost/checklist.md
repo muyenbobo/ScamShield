@@ -63,3 +63,7 @@ Reflection: [complete after build]
 Activity mode: [complete after build]
 
 ## Revisions
+
+- 2026-09-29: Broadened Gemini prompt guidance to consider more manipulation tactics and explain their psychological effect, without changing the response schema, validation, or result UI.
+- 2026-09-29: Added an optional Clipboard API paste button with a graceful inline fallback; manual paste remains available.
+- 2026-09-29 local checks: production build passed; browser checks covered clipboard success, denied/unsupported fallback, and manual entry; fictional scam messages returned authority impersonation, social proof, scarcity, reciprocity, and too-good-to-be-true findings with recommendations; the legitimate control returned Low with no findings and a recommendation. Initial control/evidence failures led to clearer prompt requirements for complete-result recommendations and exact non-overlapping excerpts; retries passed. Schema, validation code, and existing result UI remain unchanged.

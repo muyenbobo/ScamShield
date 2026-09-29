@@ -83,6 +83,8 @@ Implements `prd.md > Screens and Layout`, `prd.md > Paste and analyze a message`
 
 The opening view owns the message textarea, visible notice, empty-input prompt, and Analyze button. The notice states that text is sent to Google's Gemini AI on the free tier, may be used to improve Google products, and may be processed by human reviewers. It says not to paste sensitive personal/financial information, real account numbers, or passwords. On submit, capture the exact text and make the box read-only until the request finishes.
 
+The message entry also offers a **Paste from clipboard** button that uses the browser Clipboard API to fill the textarea. If clipboard access is unsupported or denied, show a small inline message and leave keyboard, context-menu, and long-press pasting available. Clipboard paste is optional convenience and does not replace manual paste.
+
 ### Analysis Request State
 
 Implements `prd.md > Paste and analyze a message` and `prd.md > States and Boundaries`.
@@ -99,7 +101,7 @@ Implements `prd.md > Paste and analyze a message`, `prd.md > Show risk, evidence
 
 Implements `prd.md > Paste and analyze a message`, `prd.md > Show risk, evidence, and a recommendation`, and `prd.md > States and Boundaries`.
 
-The system instruction asks the model to detect supported language and meaningful context first. For non-English input it must return the unsupported-language status without scam classification; otherwise it returns one discrete risk category, specific verbatim evidence excerpts with tactic names and plain-English explanations, and one practical recommendation. It emphasizes that Low means no common tactics detected, never proof of safety. The model response is constrained to the shared JSON schema; it does not receive prior interaction IDs or conversation history. Use `gemini-3.1-flash-lite` to stay within the learner's no-card budget requirement.
+The system instruction asks the model to detect supported language and meaningful context first. For non-English input it must return the unsupported-language status without scam classification; otherwise it returns one discrete risk category, specific verbatim, non-overlapping evidence excerpts with tactic names and plain-English explanations, and one non-empty practical recommendation even for Low. It asks the model to consider a broad range of relevant tactics—including authority impersonation, social proof, scarcity, reciprocity, and too-good-to-be-true offers—without forcing them into every result. Explanations connect the evidence to why the tactic may influence a reader, while avoiding unsupported claims. It emphasizes that Low means no common tactics detected, never proof of safety. The model response is constrained to the shared JSON schema; it does not receive prior interaction IDs or conversation history. Use `gemini-3.1-flash-lite` to stay within the learner's no-card budget requirement.
 
 ### Result and Evidence View
 

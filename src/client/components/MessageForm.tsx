@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 type MessageFormProps = {
   message: string;
@@ -9,11 +9,29 @@ type MessageFormProps = {
 };
 
 export default function MessageForm({ message, isAnalyzing, feedback, onMessageChange, onSubmit }: MessageFormProps) {
+  const [clipboardFeedback, setClipboardFeedback] = useState<string | null>(null);
+
+  async function pasteFromClipboard() {
+    setClipboardFeedback(null);
+    try {
+      if (!navigator.clipboard?.readText) throw new Error("Clipboard access is unavailable.");
+      const clipboardText = await navigator.clipboard.readText();
+      onMessageChange(clipboardText);
+    } catch {
+      setClipboardFeedback("Couldn't access clipboard — please paste manually.");
+    }
+  }
+
   return (
     <form className="message-form" onSubmit={onSubmit} aria-busy={isAnalyzing}>
-      <label className="field-label" htmlFor="message-input">
-        Suspicious message
-      </label>
+      <div className="field-header">
+        <label className="field-label" htmlFor="message-input">
+          Suspicious message
+        </label>
+        <button className="clipboard-button" type="button" onClick={pasteFromClipboard} disabled={isAnalyzing}>
+          Paste from clipboard
+        </button>
+      </div>
       <textarea
         id="message-input"
         name="message"
@@ -22,9 +40,22 @@ export default function MessageForm({ message, isAnalyzing, feedback, onMessageC
         placeholder="Paste the text of an email, SMS, or DM here…"
         value={message}
         readOnly={isAnalyzing}
-        onChange={(event) => onMessageChange(event.target.value)}
-        aria-describedby={feedback ? `privacy-note ${feedback.kind}-feedback` : "privacy-note"}
+        onChange={(event) => {
+          setClipboardFeedback(null);
+          onMessageChange(event.target.value);
+        }}
+        aria-describedby={[
+          "privacy-note",
+          feedback ? `${feedback.kind}-feedback` : null,
+          clipboardFeedback ? "clipboard-feedback" : null,
+        ].filter(Boolean).join(" ")}
       />
+      {clipboardFeedback && (
+        <p className="inline-message" id="clipboard-feedback" role="status">
+          {clipboardFeedback}
+        </p>
+      )}
+
       {feedback && (
         <p
           className={`inline-message ${feedback.kind === "error" ? "inline-error" : ""}`}

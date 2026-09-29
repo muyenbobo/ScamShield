@@ -51,7 +51,11 @@ h1, h2, p { margin-top: 0; }
 h1 { max-width: 640px; margin-bottom: 14px; color: var(--navy-deep); font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.12; letter-spacing: -0.045em; }
 .intro-copy { max-width: 600px; margin-bottom: 32px; color: var(--muted); font-size: 1.08rem; line-height: 1.65; }
 .message-form { display: grid; gap: 12px; }
+.field-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .field-label { color: var(--navy-deep); font-weight: 700; }
+.clipboard-button { min-height: 38px; padding: 7px 12px; border: 1px solid #9badb7; border-radius: 9px; color: var(--navy); background: transparent; font-size: 0.88rem; font-weight: 680; cursor: pointer; }
+.clipboard-button:hover:not(:disabled) { background: #eff4f6; }
+.clipboard-button:disabled { cursor: wait; opacity: 0.65; }
 textarea { width: 100%; min-height: 220px; resize: vertical; padding: 16px 18px; border: 1px solid #b9c8d0; border-radius: 12px; color: #172b38; background: #fff; line-height: 1.6; }
 textarea::placeholder { color: #81909a; }
 textarea:focus-visible, button:focus-visible { outline: 3px solid #7bb4d0; outline-offset: 3px; }
