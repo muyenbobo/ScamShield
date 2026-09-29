@@ -29,14 +29,14 @@ Build mode: learn
   Learner check: Try the error and reset cases in the browser, then resize to a narrow phone width. Note whether the text, highlights, labels, and explanations remain easy to follow.
   Commit: `Finish ScamShield states and responsive UI`
 
-- [ ] **3. Vercel runtime support (deployment paused)**
-  Status: Paused after adding the Vercel runtime configuration and request parsing fixes. Live deployment verification is deferred while local testing and submission preparation continue; deployment is not a blocker for those tasks.
+- [ ] **3. Prepare Vercel runtime and demo assets (live deployment paused)**
+  Status: Runtime configuration, deployment notes, and demo samples are complete, and local mechanical checks pass. Live deployment and URL verification are deferred; they do not block local review or video/submission preparation.
   Local verification (2026-09-29): `npm run build` passed; the local root page loaded; malformed and empty JSON requests returned 400; a fictional bank-alert message returned a validated High result with exact excerpts; French and very short messages returned `unsupported_language` and `insufficient_context`. Live Vercel verification remains pending.
-  Becomes usable: ScamShield is available from one Vercel URL with the React build served statically and the Express analysis function calling Gemini without exposing its API key.
-  Why now: Deploy after the complete flow works locally so cloud configuration can be checked against a stable app rather than obscuring product behavior during early development.
+  Becomes usable: ScamShield builds locally with the static frontend and Express analysis function configured for a later one-URL Vercel deployment, and its fictional demo inputs are ready.
+  Why now: Prepare the hosting path after the complete local flow works; live deployment can wait while the local review and submission materials are completed.
   PRD ref: `prd.md > The Core Journey`, `prd.md > Paste and analyze a message`, `prd.md > Screens and Layout`
   Spec ref: `spec.md > Where It Runs and How Someone Tries It > Vercel Hobby deployment`, `spec.md > External Services and Dependencies > Vercel Hobby`, `spec.md > Important Failure Modes`, `spec.md > File Structure`
-  Build: Write `devpost/demo-messages.md` with clearly fictional Nigeria-grounded and US/UK-style scam messages plus a legitimate control (these are manual demo inputs, never a fixed in-app list). Configure Vite output under `public/`, disable Vite's source `publicDir`, set a 55-second Gemini request timeout with retries disabled, verify `.env` and generated files are ignored, and deploy the project to the learner's Vercel Hobby project with `GEMINI_API_KEY` set only as a sensitive server environment variable. Do not put the key in the repository or frontend build.
+  Build: Write `devpost/demo-messages.md` with clearly fictional Nigeria-grounded and US/UK-style scam messages plus a legitimate control (these are manual demo inputs, never a fixed in-app list). Configure Vite output under `public/`, disable Vite's source `publicDir`, set a 55-second Gemini request timeout with retries disabled, verify `.env` and generated files are ignored, and document Vercel setup with `GEMINI_API_KEY` only as a sensitive server environment variable. Do not put the key in the repository or frontend build. Leave the live deployment paused.
   Verify (mechanical): Local verification passed on 2026-09-29: `npm run build`, `/` page load, invalid-body rejection, fictional scam analysis, unsupported-language response, and insufficient-context response. When deployment resumes, run `npx vercel dev`; confirm the static page loads and `/api/analyze` is reachable, then submit a fictional/anonymized English message and confirm a validated result from the live URL.
   Learner check: Open `http://localhost:5173` in a fresh browser tab, try the fictional scam and legitimate-control messages, check **Analyze another message**, and resize to a narrow phone width. Live URL review remains deferred until deployment resumes.
   Commit: `Support ScamShield on Vercel`
@@ -64,6 +64,7 @@ Activity mode: [complete after build]
 
 ## Revisions
 
+- 2026-09-30: Reframed Slice 3 as locally verified Vercel preparation; live deployment and URL checks remain deferred and do not block local review or submission preparation.
 - 2026-09-29: Broadened Gemini prompt guidance to consider more manipulation tactics and explain their psychological effect, without changing the response schema, validation, or result UI.
 - 2026-09-29: Added an optional Clipboard API paste button with a graceful inline fallback; manual paste remains available.
 - 2026-09-29 local checks: production build passed; browser checks covered clipboard success, denied/unsupported fallback, and manual entry; fictional scam messages returned authority impersonation, social proof, scarcity, reciprocity, and too-good-to-be-true findings with recommendations; the legitimate control returned Low with no findings and a recommendation. Initial control/evidence failures led to clearer prompt requirements for complete-result recommendations and exact non-overlapping excerpts; retries passed. Schema, validation code, and existing result UI remain unchanged.
