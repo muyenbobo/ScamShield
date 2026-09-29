@@ -31,19 +31,20 @@ Build mode: learn
 
 - [ ] **3. Vercel runtime support (deployment paused)**
   Status: Paused after adding the Vercel runtime configuration and request parsing fixes. Live deployment verification is deferred while local testing and submission preparation continue; deployment is not a blocker for those tasks.
+  Local verification (2026-09-29): `npm run build` passed; the local root page loaded; malformed and empty JSON requests returned 400; a fictional bank-alert message returned a validated High result with exact excerpts; French and very short messages returned `unsupported_language` and `insufficient_context`. Live Vercel verification remains pending.
   Becomes usable: ScamShield is available from one Vercel URL with the React build served statically and the Express analysis function calling Gemini without exposing its API key.
   Why now: Deploy after the complete flow works locally so cloud configuration can be checked against a stable app rather than obscuring product behavior during early development.
   PRD ref: `prd.md > The Core Journey`, `prd.md > Paste and analyze a message`, `prd.md > Screens and Layout`
   Spec ref: `spec.md > Where It Runs and How Someone Tries It > Vercel Hobby deployment`, `spec.md > External Services and Dependencies > Vercel Hobby`, `spec.md > Important Failure Modes`, `spec.md > File Structure`
   Build: Write `devpost/demo-messages.md` with clearly fictional Nigeria-grounded and US/UK-style scam messages plus a legitimate control (these are manual demo inputs, never a fixed in-app list). Configure Vite output under `public/`, disable Vite's source `publicDir`, set a 55-second Gemini request timeout with retries disabled, verify `.env` and generated files are ignored, and deploy the project to the learner's Vercel Hobby project with `GEMINI_API_KEY` set only as a sensitive server environment variable. Do not put the key in the repository or frontend build.
-  Verify (mechanical): Pending local verification. When deployment resumes, run `npm run build` and `npx vercel dev`; confirm the static page loads and `/api/analyze` is reachable. After deployment, submit a fictional/anonymized English message and confirm a validated result returns from the live URL.
-  Learner check: Open the deployed URL in a fresh browser tab, try one fictional scam message and the **Analyze another message** reset, and confirm the page and analysis work together.
+  Verify (mechanical): Local verification passed on 2026-09-29: `npm run build`, `/` page load, invalid-body rejection, fictional scam analysis, unsupported-language response, and insufficient-context response. When deployment resumes, run `npx vercel dev`; confirm the static page loads and `/api/analyze` is reachable, then submit a fictional/anonymized English message and confirm a validated result from the live URL.
+  Learner check: Open `http://localhost:5173` in a fresh browser tab, try the fictional scam and legitimate-control messages, check **Analyze another message**, and resize to a narrow phone width. Live URL review remains deferred until deployment resumes.
   Commit: `Support ScamShield on Vercel`
 
 ## Hands-on Checkpoints
 
 - [x] Early usable behavior explored — after Slice 1, inspect the real analysis and give feedback on the evidence-to-explanation pairing before edge-case polish.
-- [ ] Final kick-the-tires exploration and feedback completed — after Slice 3, explore the deployed app freely and report anything broken, confusing, or worth changing.
+- [ ] Final kick-the-tires exploration and feedback completed — explore the local app while deployment is paused; after deployment resumes, review the deployed app and report anything broken, confusing, or worth changing.
 
 ## Final Review
 
