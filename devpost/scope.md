@@ -37,6 +37,8 @@ In a short demo, ScamShield analyzes a user-pasted scam message and shows high r
 ## Later
 Broader scam coverage and stronger reliability beyond what the proof of concept can demonstrate.
 
+Browser extension or email/SMS client integration, so analysis can happen where someone actually receives a message rather than requiring them to already suspect it and paste it into a separate tool. This POC validates the core detection and explanation approach; point-of-receipt integration is the natural next step for real-world adoption.
+
 ## Explicitly Cut
 - Detection guaranteed to catch every scam: the learner said the first version need not be bulletproof, and universal coverage is beyond this proof of concept.
 - A detector limited to matching a fixed set of curated examples: it would not prove the core use case of analyzing real messages people paste in.

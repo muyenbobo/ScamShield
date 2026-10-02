@@ -9,6 +9,7 @@ export default function App() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [feedback, setFeedback] = useState<{ kind: "prompt" | "error"; message: string } | null>(null);
+  const [showIntroAnimation, setShowIntroAnimation] = useState(true);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -70,17 +71,23 @@ export default function App() {
       <section className="scamshield-card" aria-labelledby="page-title">
         {!result && (
           <>
-            <h1 id="page-title">Paste a suspicious message. We’ll tell you what’s really going on.</h1>
-            <MessageForm
-              message={message}
-              isAnalyzing={isAnalyzing}
-              feedback={feedback}
-              onMessageChange={(nextMessage) => {
-                setMessage(nextMessage);
-                if (feedback) setFeedback(null);
-              }}
-              onSubmit={handleSubmit}
-            />
+            <div
+              className={showIntroAnimation ? "opening-content opening-content-enter" : "opening-content"}
+              onAnimationEnd={() => setShowIntroAnimation(false)}
+            >
+              <h1 id="page-title">Paste a suspicious message. We’ll tell you what’s really going on.</h1>
+              <p className="trust-note">Powered by AI pattern analysis — not a lookup list.</p>
+              <MessageForm
+                message={message}
+                isAnalyzing={isAnalyzing}
+                feedback={feedback}
+                onMessageChange={(nextMessage) => {
+                  setMessage(nextMessage);
+                  if (feedback) setFeedback(null);
+                }}
+                onSubmit={handleSubmit}
+              />
+            </div>
           </>
         )}
 
@@ -91,7 +98,7 @@ export default function App() {
         )}
 
         {result && (
-          <section className="result-panel" aria-live="polite" aria-labelledby="result-title">
+          <section className="result-panel result-panel-enter" aria-live="polite" aria-labelledby="result-title">
             <div className="result-heading">
               <div>
                 <p className="eyebrow">Analysis complete</p>
