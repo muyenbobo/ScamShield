@@ -34,3 +34,15 @@ The first CLI run may ask you to sign in and link or create a Vercel project. Fo
 Messages are sent from the Express server to Gemini 3.1 Flash-Lite using `store: false`. Google's free-tier terms may allow submitted content to be used to improve Google products and reviewed by humans. Don't paste sensitive personal or financial details, account numbers, or passwords. Demo with fictional or already-public messages only.
 
 ScamShield reports patterns it detects; Low risk is not a guarantee that a message is genuine.
+
+## Why not just ask a chat AI?
+
+ScamShield checks each quoted phrase on the server against the submitted message before showing it, returns a consistent structured response, and connects each highlighted phrase in the UI to its explanation.
+
+## How this was tested
+
+A small manual sanity check sent six fictional scam messages and three legitimate messages through the local API once each. All nine returned complete responses: the scams were rated High and the legitimate messages Low with no findings. Every returned excerpt matched the submitted text and was non-overlapping; no `analysis_failed` responses occurred. This is a small manual check, not a formal accuracy evaluation.
+
+## Screenshots
+
+Screenshot images will be added in [`docs/screenshots/`](docs/screenshots/).
