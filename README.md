@@ -2,6 +2,11 @@
 
 ScamShield helps people understand common scam tactics in a pasted English message. It highlights exact phrases, explains the tactics, and suggests what to do next.
 
+| High risk | Medium risk | Low risk |
+| --- | --- | --- |
+| ![High-risk result](docs/screenshots/high-risk.png) | ![Medium-risk result](docs/screenshots/medium-risk.png) | ![Low-risk result](docs/screenshots/low-risk.png) |
+| *Gift-card request with urgency and secrecy cues.* | *Test authorization with a highlighted urgency cue.* | *Routine plans; no common tactics detected.* |
+
 ## Run locally
 
 Requirements: Node.js 24 and npm.
@@ -45,4 +50,4 @@ A small manual sanity check sent six fictional scam messages and three legitimat
 
 ## Screenshots
 
-Screenshot images will be added in [`docs/screenshots/`](docs/screenshots/).
+Screenshots are stored in [`docs/screenshots/`](docs/screenshots/).
