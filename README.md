@@ -28,6 +28,8 @@ Open `http://localhost:5173`.
 
 Vercel serves the Vite build from `public/` and runs the default-exported Express app in `src/index.ts` as a function. The Gemini request has a 55-second timeout with retries disabled; a timeout follows the app's normal analysis-failure path.
 
+Vercel configuration is included, but live deployment was not completed or verified for this submission; the app is run locally.
+
 ```powershell
 npx vercel dev
 ```
